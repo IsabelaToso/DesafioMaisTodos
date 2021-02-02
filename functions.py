@@ -2,6 +2,7 @@ import datetime
 import calendar
 import cryptography
 from creditcard import CreditCard
+from creditcard.exceptions import BrandNotFound
 from cryptography.fernet import Fernet
 
 #validar a exp_date
@@ -39,8 +40,12 @@ def validate_number(number):
 
     if cc.is_valid() == True:
         valid = True
+        try:
+            brand = cc.get_brand()
+        except BrandNotFound:
+            print('Brand not found!')
 
-    return valid
+    return valid, brand
 
 #validar o cvv
 def validate_cvv(cvv):
