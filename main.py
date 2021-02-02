@@ -1,7 +1,7 @@
 from app import app
 from db_config import mysql
 from flask import request
-from function import validate_date, validate_holder, validate_number, validate_cvv, encrypt_decrypt
+from functions import validate_date, validate_holder, validate_number, validate_cvv, encrypt_decrypt
 
 @app.route('/RegisterNewCreditCard', methods=['POST'])
 def index():
@@ -12,12 +12,13 @@ def index():
         _cvv = _json[0]['cvv']
 
 
-        if validate_date(_exp_date)[0] == True and validate_holder(_holder) == True and validate_number(_number) == True and validate_cvv(_cvv) == True:
+        if validate_date(_exp_date)[0] == True and validate_holder(_holder) == True and validate_number(_number)[0] == True and validate_cvv(_cvv) == True:
            fullDate = validate_date(_exp_date)[1]
            encryptedNumber = encrypt_decrypt(_number)
+           brand = validate_number(_number)[1]
 
-           sql = "INSERT INTO creditcard (exp_date, holder, number, cvv) VALUES (%s, %s, %s, %s);"
-           data = (fullDate , _holder, encryptedNumber, _cvv)
+           sql = "INSERT INTO creditcard (exp_date, holder, number, cvv, brand) VALUES (%s, %s, %s, %s, %s);"
+           data = (fullDate , _holder, encryptedNumber, _cvv, brand)
 
            conn = mysql.connect()
            myCursor = conn.cursor()
