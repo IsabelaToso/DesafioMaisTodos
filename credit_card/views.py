@@ -3,11 +3,23 @@ from django.shortcuts import render
 from django.http.response import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework import status
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect
 
 from credit_card.models import CreditCard
 from credit_card.serializers import CreditCardSerializer
 from rest_framework.decorators import api_view
 from credit_card.functions import validate_date, validate_holder, validate_number, validate_cvv
+
+def register_user(request):
+    if request.method == "POST":
+        form_user = UserCreationForm(request.POST)
+        if form_user.is_valid():
+            form_user.save()
+            return redirect('register_credit_card')
+    else:
+        form_user = UserCreationForm()
+    return render(request, 'register.html', {'form_user': form_user})
 
 @api_view(['GET', 'POST', 'DELETE'])
 def register_new_credit_card(request):
