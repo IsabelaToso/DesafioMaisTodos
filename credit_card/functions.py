@@ -5,18 +5,22 @@ from creditcard.exceptions import BrandNotFound
 
 #validar a exp_date
 def validate_date(exp_date):
-    month, year = exp_date.split('/')
 
-    valid = True
-
-    #vê se data é válida
     try:
-        exp_date = datetime.date(int(year), int(month), calendar.monthrange(int(year), int(month))[-1])
-    except ValueError:
-        valid = False
+        month, year = exp_date.split('/')
 
-    #vê se data é menor do que a data de hoje
-    if valid == True and exp_date < datetime.date.today():
+        valid = True
+
+        #vê se data é válida
+        try:
+            exp_date = datetime.date(int(year), int(month), calendar.monthrange(int(year), int(month))[-1])
+        except ValueError:
+            valid = False
+
+        #vê se data é menor do que a data de hoje
+        if valid == True and exp_date < datetime.date.today():
+            valid = False
+    except:
         valid = False
 
     return valid, exp_date
@@ -36,12 +40,14 @@ def validate_number(number):
 
     cc = CreditCard(number)
 
+    brand = ""
+
     if cc.is_valid() == True:
         valid = True
         try:
             brand = cc.get_brand()
         except BrandNotFound:
-            brand = null
+            pass
 
     return valid, brand
 

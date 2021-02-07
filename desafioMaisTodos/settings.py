@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'credit_card.apps.CreditCardConfig',
     'corsheaders',
     'encrypted_fields',
+    'rest_framework.authtoken',
 ]
 
 # A list of hex-encoded 32 byte keys
@@ -84,6 +85,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'desafioMaisTodos.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

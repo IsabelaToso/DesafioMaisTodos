@@ -1,6 +1,7 @@
 from django.db import models
 from encrypted_fields import fields
 
+
 class CreditCard(models.Model):
     exp_date = models.DateField(auto_now = False, auto_now_add = False)
     holder = models.CharField(max_length=70, blank=False, default="")
