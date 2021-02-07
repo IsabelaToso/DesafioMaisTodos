@@ -35,6 +35,16 @@ Com as seguintes restrições:
   * campo não obrigatório;
   * se presente, possuir entre 3 e 4 caracteres;
   * entrada númerico; 
+  
+### Exemplo de entrada válida: 
+```
+{
+    "exp_date": "02/2026",
+    "holder": "Fulano",
+    "number": "4539578763621486",
+    "cvv": "123",
+}
+```
 
 ##### Obs: 
   A validade do campo number e a brand do cartão são obtidos através da lib https://github.com/MaisTodos/python-creditcard. Confira essa documentação para maiores informações.
