@@ -3,14 +3,17 @@ from rest_framework.parsers import JSONParser
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import authentication_classes, permission_classes
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
-from rest_framework.authtoken.models import Token
 
 from credit_card.models import CreditCard
 from credit_card.serializers import CreditCardSerializer, RegisterSerializer
 from rest_framework.decorators import api_view
 from credit_card.functions import validate_date, validate_holder, validate_number, validate_cvv
+from rest_framework.authtoken.views import obtain_auth_token
+import requests
+import json
+from django.contrib.sessions.models import Session
 
 #registrar novo usuário
 @api_view(['POST'])
@@ -21,7 +24,6 @@ def register_user(request):
         if user_serializer.is_valid(raise_exception=True):
             try:
                 user = User.objects.create_user(user_data['username'], user_data['email'], user_data['password'])
-                Token.objects.create(user=user)
                 return JsonResponse(user_serializer.data, status=status.HTTP_200_OK, safe=False)
             except:
                 return JsonResponse(user_serializer.data, status=status.HTTP_400_BAD_REQUEST, safe=False)
@@ -29,7 +31,7 @@ def register_user(request):
 #registrar novo cartão de crédito
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def register_new_credit_card(request):
     if request.method == 'POST':
         credit_card_data = JSONParser().parse(request)
@@ -49,7 +51,7 @@ def register_new_credit_card(request):
 #obter detalhes de um único cartão de crédito
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def credit_card_detail(request, number):
         try:
             if request.method == 'GET':
@@ -62,7 +64,7 @@ def credit_card_detail(request, number):
 #obter detalhes de todos os cartões de crédito
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
-@permission_classes([AllowAny])
+@permission_classes([IsAuthenticated])
 def all_credit_card(request):
     if request.method == 'GET':
         credit_card_data = CreditCard.objects.all()
