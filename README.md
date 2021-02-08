@@ -17,7 +17,7 @@ O software tem como objetivo realizar operações de cadastro e consulta de dado
 }
 ```
 ##### Obs: 
-    O token de autorização deve ser obtido através da url de login
+O token de autorização deve ser obtido através da url de login
 ### Body: 
 Os dados passados devem estar no formato:
 ```
