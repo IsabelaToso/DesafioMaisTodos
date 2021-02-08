@@ -7,11 +7,6 @@ def api_client():
    from rest_framework.test import APIClient
    return APIClient()
 
-@pytest.fixture
-def api_client():
-   from rest_framework.test import APIClient
-   return APIClient()
-
 #testando acessar funcionalidades sem token válido
 @pytest.mark.django_db(transaction=True)
 def test_invalid_token(
