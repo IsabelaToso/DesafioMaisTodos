@@ -125,7 +125,8 @@ Este software é uma versão simplificada de uma API de cadastro de cartões de 
 * https://bezkoder.com/django-crud-mysql-rest-framework/
 * https://www.django-rest-framework.org
 ###### Django authentication system
-* https://studygyaan.com/django/django-rest-framework-tutorial-register-login-logout
+* https://www.youtube.com/watch?v=Wq6JqXqOzCE
+* https://www.django-rest-framework.org/api-guide/authentication/
 * https://docs.djangoproject.com/en/3.1/topics/auth/default/
 ###### Django searchable encrypted fields: 
 * https://pypi.org/project/django-searchable-encrypted-fields/
