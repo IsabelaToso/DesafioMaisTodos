@@ -10,6 +10,14 @@ O software tem como objetivo realizar operações de cadastro e consulta de dado
 ## Função cadastrar cartão de crédito
 ### URL: api/credit_card/register_new
 ### Método: POST
+### Header: 
+```
+{
+    "Authorization": "Token <token>"
+}
+```
+##### Obs: 
+    O token de autorização deve ser obtido através da url de login
 ### Body: 
 Os dados passados devem estar no formato:
 ```
@@ -30,7 +38,7 @@ Com as seguintes restrições:
   * possuir mais de 2 caracteres;
 #### number:
   * ser válido;
-  * cartões de crédito com brand inválida serão cadastrados com     valor de brand vazio;
+  * cartões de crédito com brand inválida serão cadastrados com valor de brand vazio;
 #### cvv:
   * campo não obrigatório;
   * se presente, possuir entre 3 e 4 caracteres;
@@ -102,6 +110,10 @@ Com as seguintes restrições:
     "username": <string>,
     "password": <string>
 }
+```
+### Retorno: 
+```
+{ 'token' : <token> }
 ```
 ##### Obs: 
 Nesse software, todos os usuários possuem acesso a todas as funcionalidades do sistema. 
