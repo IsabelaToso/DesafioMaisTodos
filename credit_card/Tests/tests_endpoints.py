@@ -7,6 +7,28 @@ def api_client():
    from rest_framework.test import APIClient
    return APIClient()
 
+@pytest.fixture
+def api_client():
+   from rest_framework.test import APIClient
+   return APIClient()
+
+#testando acessar funcionalidades sem token válido
+@pytest.mark.django_db(transaction=True)
+def test_invalid_token(
+    api_client
+):
+   #inserir um cartão válido
+   url = '/api/credit_card/register_new'
+   data = {
+        'exp_date': "02/2021",
+        'holder': "Teste",
+        'number': "4539578763621486",
+        'cvv': "123"
+   }
+   response = api_client.post(url, content_type='application/json', data=json.dumps(data))
+   assert response.status_code == 401
+
+
 @pytest.mark.django_db(transaction=True)
 def test_valid_and_invalid_data(
     api_client
@@ -66,6 +88,9 @@ def test_valid_and_invalid_data(
         'password': "teste12345"
    }
    response = api_client.post(url, content_type='application/json', data=json.dumps(data))
+   data = response.json()
+   token = data['token']
+   api_client.credentials(HTTP_AUTHORIZATION = "Token "+token) #atribuindo token ao header das requisições do cliente
    assert response.status_code == 200
 
    #testando inserir um cartão com request inválido
